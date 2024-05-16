@@ -1,0 +1,36 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: webapp-sql
+spec:
+  type:
+    LoadBalancer
+  selector:
+    app: webapp-sql
+  ports:
+    - protocol: TCP
+      port: 80
+---      
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webapp-sql
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: webapp-sql
+  template: 
+    metadata:
+      labels:
+        app:
+          webapp-sql
+    spec:
+      containers:
+        - name: webapp-sql
+          image: judy0817/webapp1
+          imagePullPolicy: Always
+          ports: 
+            - containerPort: 8081
+        
